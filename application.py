@@ -12,6 +12,9 @@ class Application:
         # do not add empty records
         if text != "":
             self.journal += self.time() + " " + text
+            # save journal
+            with open(self.journal_file, "w") as f:
+                f.write(self.journal)
 
     def edit(self):
         with tempfile.NamedTemporaryFile("r", suffix=".txt") as f:

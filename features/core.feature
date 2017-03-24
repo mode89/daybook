@@ -27,3 +27,16 @@ Feature: Core functionality
         Then content of journal is
             """
             """
+
+    Scenario: save journal
+        Given application
+        And composed text is
+            """
+            Another record
+            """
+        And time is "2000-01-02 03:04"
+        When run application
+        Then content of journal file is
+            """
+            2000-01-02 03:04 Another record
+            """
