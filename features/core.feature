@@ -40,3 +40,8 @@ Feature: Core functionality
             """
             2000-01-02 03:04 Another record
             """
+
+    Scenario: load journal file name from config file
+        Given application
+        And load config from file "features/data/example.config"
+        Then journal file name is "example.journal"

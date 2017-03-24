@@ -1,3 +1,4 @@
+import json
 import os
 import subprocess
 import tempfile
@@ -5,7 +6,12 @@ import tempfile
 class Application:
 
     def __init__(self):
+        self.config = dict()
         self.journal = str()
+
+    def load_config(self, file_name):
+        with open(file_name, "r") as f:
+            self.config = json.load(f)
 
     def run(self):
         text = self.edit()
@@ -13,7 +19,7 @@ class Application:
         if text != "":
             self.journal += self.time() + " " + text
             # save journal
-            with open(self.journal_file, "w") as f:
+            with open(self.config["journal"], "w") as f:
                 f.write(self.journal)
 
     def edit(self):

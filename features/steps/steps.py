@@ -9,8 +9,8 @@ def step_impl(context):
 @given("application")
 def step_impl(context):
     context.application = application.Application()
-    context.temp_journal_file = tempfile.NamedTemporaryFile()
-    context.application.journal_file = context.temp_journal_file.name
+    context.temp_journal = tempfile.NamedTemporaryFile()
+    context.application.config["journal"] = context.temp_journal.name
 
 @given("composed text is")
 def step_impl(context):
@@ -19,6 +19,10 @@ def step_impl(context):
 @given("time is \"{time}\"")
 def step_impl(context, time):
     context.application.time = mock.Mock(return_value=time)
+
+@given("load config from file \"{name}\"")
+def step_impl(context, name):
+    context.application.load_config(name)
 
 @when("run application")
 def step_impl(context):
@@ -35,7 +39,11 @@ def step_impl(context):
 
 @then("content of journal file is")
 def step_impl(context):
-    with open(context.application.journal_file, "r") as f:
+    with open(context.application.config["journal"], "r") as f:
         text = f.read()
         assert text == context.text, \
             "{0} != {1}".format(text, context.text)
+
+@then("journal file name is \"{name}\"")
+def step_impl(context, name):
+    assert context.application.config["journal"] == name
