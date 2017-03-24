@@ -2,7 +2,13 @@ import os
 import subprocess
 import tempfile
 
-if __name__ == "__main__":
+def main():
+    compose_text()
+
+def compose_text():
     with tempfile.NamedTemporaryFile("r", suffix=".txt") as f:
         subprocess.call([os.environ["EDITOR"], f.name])
-        print(f.read())
+        return f.read()
+
+if __name__ == "__main__":
+    main()
