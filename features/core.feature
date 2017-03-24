@@ -1,5 +1,6 @@
 Feature: Core functionality
 
-    Scenario: compose text
+    Scenario: edit text
+        Given application
         When run application
-        Then compose text
+        Then should edit text
