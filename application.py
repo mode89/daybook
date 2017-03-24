@@ -8,7 +8,10 @@ class Application:
         self.journal = str()
 
     def run(self):
-        self.journal += self.time() + " " + self.edit()
+        text = self.edit()
+        # do not add empty records
+        if text != "":
+            self.journal += self.time() + " " + text
 
     def edit(self):
         with tempfile.NamedTemporaryFile("r", suffix=".txt") as f:
