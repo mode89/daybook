@@ -1,13 +1,14 @@
 Feature: Core functionality
 
     Scenario: edit text
-        Given application
+        Given application with temp journal and mocked config
+        And mock composing of record
         When run application
-        Then should edit text
+        Then should compose record
 
-    Scenario: add record
-        Given application
-        And composed text is
+    Scenario: append record
+        Given application with temp journal and mocked config
+        And composed record is
             """
             New record
             """
@@ -19,8 +20,8 @@ Feature: Core functionality
             """
 
     Scenario: skip empty record
-        Given application
-        And composed text is
+        Given application with temp journal and mocked config
+        And composed record is
             """
             """
         When run application
@@ -29,8 +30,8 @@ Feature: Core functionality
             """
 
     Scenario: save journal
-        Given application
-        And composed text is
+        Given application with temp journal and mocked config
+        And composed record is
             """
             Another record
             """
@@ -44,4 +45,6 @@ Feature: Core functionality
     Scenario: load journal file name from config file
         Given application
         And load config from file "features/data/example.config"
+        And mock composing of record
+        When run application
         Then journal file name is "example.journal"

@@ -9,28 +9,44 @@ def step_impl(context):
 @given("application")
 def step_impl(context):
     context.application = application.Application()
-    context.temp_journal = tempfile.NamedTemporaryFile()
-    context.application.config["journal"] = context.temp_journal.name
 
-@given("composed text is")
+@given("application with temp journal and mocked config")
 def step_impl(context):
-    context.application.edit = mock.Mock(return_value=context.text)
+    context.temp_journal = tempfile.NamedTemporaryFile()
+    context.application = application.Application()
+    context.application.load_config = mock.Mock(
+        return_value={
+            "journal": context.temp_journal.name
+        })
+
+@given("mock loading of configuration")
+def step_impl(context):
+    context.application.load_config = mock.Mock()
+
+@given("mock composing of record")
+def step_impl(context):
+    context.application.compose_record = mock.Mock(return_value="")
+
+@given("composed record is")
+def step_impl(context):
+    context.application.compose_record = \
+        mock.Mock(return_value=context.text)
 
 @given("time is \"{time}\"")
 def step_impl(context, time):
     context.application.time = mock.Mock(return_value=time)
 
-@given("load config from file \"{name}\"")
-def step_impl(context, name):
-    context.application.load_config(name)
+@given("load config from file \"{path}\"")
+def step_impl(context, path):
+    context.application.config_path = path
 
 @when("run application")
 def step_impl(context):
     context.application.run()
 
-@then("should edit text")
+@then("should compose record")
 def step_impl(context):
-    assert context.application.edit.call_count == 1
+    assert context.application.compose_record.call_count == 1
 
 @then("content of journal is")
 def step_impl(context):
