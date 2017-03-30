@@ -30,6 +30,28 @@ Feature: Core functionality
             """
             """
 
+    Scenario: load journal
+        Given application with temp journal and mocked config
+        And content of journal file is
+            """
+            2000-01-02 03:04 First record
+
+
+            """
+        And composed record is
+            """
+            Second record
+            """
+        And time is "2000-01-02 03:05"
+        When run application
+        Then content of journal file is
+            """
+            2000-01-02 03:04 First record
+
+            2000-01-02 03:05 Second record
+
+            """
+
     Scenario: save journal
         Given application with temp journal and mocked config
         And composed record is

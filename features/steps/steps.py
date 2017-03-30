@@ -40,6 +40,11 @@ def step_impl(context, time):
 def step_impl(context, path):
     context.application.config_path = path
 
+@given("content of journal file is")
+def step_impl(context):
+    with open(context.temp_journal.name, "w") as f:
+        f.write(context.text)
+
 @when("run application")
 def step_impl(context):
     context.application.run()

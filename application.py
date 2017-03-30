@@ -15,6 +15,7 @@ class Application:
         self.config = self.load_config()
         self.record = self.compose_record()
         if not self.record_is_empty():
+            self.load_journal()
             self.append_record()
             self.save_journal()
 
@@ -31,6 +32,10 @@ class Application:
 
     def record_is_empty(self):
         return self.record == ""
+
+    def load_journal(self):
+        with open(self.config["journal"], "r") as f:
+            self.journal = f.read()
 
     def append_record(self):
         self.journal += self.time() + " " + self.record + "\n"
