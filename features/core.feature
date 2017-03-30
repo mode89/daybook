@@ -72,3 +72,10 @@ Feature: Core functionality
         And mock composing of entry
         When run application
         Then journal file name is "example.journal"
+
+    Scenario: execute 'edit' command
+        Given application with temp journal and mocked config
+        And mock text editing
+        And command line is "edit"
+        When run application
+        Then should edit text

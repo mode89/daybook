@@ -68,3 +68,15 @@ def step_impl(context):
 @then("journal file name is \"{name}\"")
 def step_impl(context, name):
     assert context.application.config["journal"] == name
+
+@given("mock text editing")
+def step_impl(context):
+    context.application.edit_text = mock.Mock()
+
+@then("should edit text")
+def step_impl(context):
+    assert context.application.edit_text.call_count == 1
+
+@given("command line is \"{text}\"")
+def step_impl(context, text):
+    context.application.args = text.split()

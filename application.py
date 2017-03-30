@@ -23,6 +23,8 @@ class Application:
                 self.load_journal()
                 self.append_entry()
                 self.save_journal()
+        elif self.command == "edit":
+            self.edit_text()
 
     def parse_args(self):
         parser = argparse.ArgumentParser()
