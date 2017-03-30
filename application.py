@@ -7,7 +7,7 @@ import tempfile
 class Application:
 
     def __init__(self):
-        self.config_path = os.path.expanduser("~/.journal")
+        self.config_path = str()
         self.config = dict()
         self.record = str()
         self.journal = str()
