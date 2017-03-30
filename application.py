@@ -20,7 +20,9 @@ class Application:
 
     def load_config(self):
         with open(self.config_path, "r") as f:
-            return json.load(f)
+            config = json.load(f)
+        config["journal"] = os.path.expanduser(config["journal"])
+        return config
 
     def compose_record(self):
         with tempfile.NamedTemporaryFile("r", suffix=".txt") as f:
