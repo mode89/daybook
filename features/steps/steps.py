@@ -71,7 +71,7 @@ def step_impl(context, name):
 
 @given("mock text editing")
 def step_impl(context):
-    context.application.edit_text = mock.Mock()
+    context.application.edit_text = mock.Mock(return_value="")
 
 @then("should edit text")
 def step_impl(context):
@@ -80,3 +80,7 @@ def step_impl(context):
 @given("command line is \"{text}\"")
 def step_impl(context, text):
     context.application.args = text.split()
+
+@given("edited text is")
+def step_impl(context):
+    context.application.edit_text = mock.Mock(return_value=context.text)

@@ -24,7 +24,9 @@ class Application:
                 self.append_entry()
                 self.save_journal()
         elif self.command == "edit":
-            self.edit_text()
+            self.load_journal()
+            self.journal = self.edit_text(self.journal)
+            self.save_journal()
 
     def parse_args(self):
         parser = argparse.ArgumentParser()
@@ -37,10 +39,19 @@ class Application:
         config["journal"] = os.path.expanduser(config["journal"])
         return config
 
+    def edit_text(self, text):
+        fd, path = tempfile.mkstemp()
+        try:
+            os.write(fd, text.encode("utf-8"))
+            os.close(fd)
+            subprocess.call([os.environ["EDITOR"], path])
+            with open(path, "r") as f:
+                return f.read()
+        finally:
+            os.remove(path)
+
     def compose_entry(self):
-        with tempfile.NamedTemporaryFile("r", suffix=".txt") as f:
-            subprocess.call([os.environ["EDITOR"], f.name])
-            return f.read()
+        return self.edit_text("")
 
     def entry_is_empty(self):
         return self.entry == ""

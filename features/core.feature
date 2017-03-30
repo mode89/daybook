@@ -79,3 +79,23 @@ Feature: Core functionality
         And command line is "edit"
         When run application
         Then should edit text
+
+    Scenario: edit journal
+        Given application with temp journal and mocked config
+        And command line is "edit"
+        And content of journal file is
+            """
+            2000-01-02 03:04 First record
+
+            Some text
+
+            """
+        And edited text is
+            """
+            Edited text
+            """
+        When run application
+        Then content of journal file is
+            """
+            Edited text
+            """
