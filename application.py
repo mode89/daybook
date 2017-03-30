@@ -1,3 +1,4 @@
+import datetime
 import json
 import os
 import subprocess
@@ -45,4 +46,5 @@ class Application:
             f.write(self.journal)
 
     def time(self):
-        return str()
+        timestamp = datetime.datetime.now()
+        return timestamp.strftime("%Y %B %d %H:%M")
