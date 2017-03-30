@@ -1,3 +1,4 @@
+import argparse
 import datetime
 import json
 import os
@@ -11,14 +12,22 @@ class Application:
         self.config = dict()
         self.record = str()
         self.journal = str()
+        self.args = list()
 
     def run(self):
+        self.parse_args()
         self.config = self.load_config()
-        self.record = self.compose_record()
-        if not self.record_is_empty():
-            self.load_journal()
-            self.append_record()
-            self.save_journal()
+        if self.command == "entry":
+            self.record = self.compose_record()
+            if not self.record_is_empty():
+                self.load_journal()
+                self.append_record()
+                self.save_journal()
+
+    def parse_args(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument("command", nargs="?", default="entry")
+        parser.parse_args(self.args, self)
 
     def load_config(self):
         with open(self.config_path, "r") as f:
