@@ -33,7 +33,7 @@ class Application:
         return self.record == ""
 
     def append_record(self):
-        self.journal += self.time() + " " + self.record
+        self.journal += self.time() + " " + self.record + "\n"
 
     def save_journal(self):
         with open(self.config["journal"], "w") as f:

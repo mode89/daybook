@@ -17,6 +17,7 @@ Feature: Core functionality
         Then content of journal is
             """
             2000-01-02 03:04 New record
+
             """
 
     Scenario: skip empty record
@@ -40,6 +41,7 @@ Feature: Core functionality
         Then content of journal file is
             """
             2000-01-02 03:04 Another record
+
             """
 
     Scenario: load journal file name from config file
