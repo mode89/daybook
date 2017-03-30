@@ -23,13 +23,13 @@ def step_impl(context):
 def step_impl(context):
     context.application.load_config = mock.Mock()
 
-@given("mock composing of record")
+@given("mock composing of entry")
 def step_impl(context):
-    context.application.compose_record = mock.Mock(return_value="")
+    context.application.compose_entry = mock.Mock(return_value="")
 
-@given("composed record is")
+@given("composed entry is")
 def step_impl(context):
-    context.application.compose_record = \
+    context.application.compose_entry = \
         mock.Mock(return_value=context.text)
 
 @given("time is \"{time}\"")
@@ -49,9 +49,9 @@ def step_impl(context):
 def step_impl(context):
     context.application.run()
 
-@then("should compose record")
+@then("should compose entry")
 def step_impl(context):
-    assert context.application.compose_record.call_count == 1
+    assert context.application.compose_entry.call_count == 1
 
 @then("content of journal is")
 def step_impl(context):

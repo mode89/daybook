@@ -2,27 +2,27 @@ Feature: Core functionality
 
     Scenario: edit text
         Given application with temp journal and mocked config
-        And mock composing of record
+        And mock composing of entry
         When run application
-        Then should compose record
+        Then should compose entry
 
-    Scenario: append record
+    Scenario: append entry
         Given application with temp journal and mocked config
-        And composed record is
+        And composed entry is
             """
-            New record
+            New entry
             """
         And time is "2000-01-02 03:04"
         When run application
         Then content of journal is
             """
-            2000-01-02 03:04 New record
+            2000-01-02 03:04 New entry
 
             """
 
-    Scenario: skip empty record
+    Scenario: skip empty entry
         Given application with temp journal and mocked config
-        And composed record is
+        And composed entry is
             """
             """
         When run application
@@ -34,41 +34,41 @@ Feature: Core functionality
         Given application with temp journal and mocked config
         And content of journal file is
             """
-            2000-01-02 03:04 First record
+            2000-01-02 03:04 First entry
 
 
             """
-        And composed record is
+        And composed entry is
             """
-            Second record
+            Second entry
             """
         And time is "2000-01-02 03:05"
         When run application
         Then content of journal file is
             """
-            2000-01-02 03:04 First record
+            2000-01-02 03:04 First entry
 
-            2000-01-02 03:05 Second record
+            2000-01-02 03:05 Second entry
 
             """
 
     Scenario: save journal
         Given application with temp journal and mocked config
-        And composed record is
+        And composed entry is
             """
-            Another record
+            Another entry
             """
         And time is "2000-01-02 03:04"
         When run application
         Then content of journal file is
             """
-            2000-01-02 03:04 Another record
+            2000-01-02 03:04 Another entry
 
             """
 
     Scenario: load journal file name from config file
         Given application
         And load config from file "features/data/example.config"
-        And mock composing of record
+        And mock composing of entry
         When run application
         Then journal file name is "example.journal"

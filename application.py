@@ -10,7 +10,7 @@ class Application:
     def __init__(self):
         self.config_path = str()
         self.config = dict()
-        self.record = str()
+        self.entry = str()
         self.journal = str()
         self.args = list()
 
@@ -18,10 +18,10 @@ class Application:
         self.parse_args()
         self.config = self.load_config()
         if self.command == "entry":
-            self.record = self.compose_record()
-            if not self.record_is_empty():
+            self.entry = self.compose_entry()
+            if not self.entry_is_empty():
                 self.load_journal()
-                self.append_record()
+                self.append_entry()
                 self.save_journal()
 
     def parse_args(self):
@@ -35,20 +35,20 @@ class Application:
         config["journal"] = os.path.expanduser(config["journal"])
         return config
 
-    def compose_record(self):
+    def compose_entry(self):
         with tempfile.NamedTemporaryFile("r", suffix=".txt") as f:
             subprocess.call([os.environ["EDITOR"], f.name])
             return f.read()
 
-    def record_is_empty(self):
-        return self.record == ""
+    def entry_is_empty(self):
+        return self.entry == ""
 
     def load_journal(self):
         with open(self.config["journal"], "r") as f:
             self.journal = f.read()
 
-    def append_record(self):
-        self.journal += self.time() + " " + self.record + "\n"
+    def append_entry(self):
+        self.journal += self.time() + " " + self.entry + "\n"
 
     def save_journal(self):
         with open(self.config["journal"], "w") as f:
