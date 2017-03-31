@@ -1,4 +1,4 @@
-import application
+from journal.application import Application
 import tempfile
 from unittest import mock
 
@@ -8,12 +8,12 @@ def step_impl(context):
 
 @given("application")
 def step_impl(context):
-    context.application = application.Application()
+    context.application = Application()
 
 @given("application with temp journal and mocked config")
 def step_impl(context):
     context.temp_journal = tempfile.NamedTemporaryFile()
-    context.application = application.Application()
+    context.application = Application()
     context.application.load_config = mock.Mock(
         return_value={
             "journal": context.temp_journal.name
