@@ -17,16 +17,22 @@ class Application:
     def run(self):
         self.parse_args()
         self.config = self.load_config()
-        if self.command == "entry":
-            self.entry = self.compose_entry()
-            if not self.entry_is_empty():
-                self.load_journal()
-                self.append_entry()
-                self.save_journal()
-        elif self.command == "edit":
+        self.execute_command()
+
+    def execute_command(self):
+        getattr(self, "command_" + self.command)()
+
+    def command_entry(self):
+        self.entry = self.compose_entry()
+        if not self.entry_is_empty():
             self.load_journal()
-            self.journal = self.edit_text(self.journal)
+            self.append_entry()
             self.save_journal()
+
+    def command_edit(self):
+        self.load_journal()
+        self.journal = self.edit_text(self.journal)
+        self.save_journal()
 
     def parse_args(self):
         parser = argparse.ArgumentParser()
