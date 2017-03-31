@@ -82,6 +82,10 @@ class Application:
         cipher = daybook.cipher.Cipher(self.password)
         self.journal = cipher.encrypt(self.journal.encode("utf-8"))
 
+    def decrypt_journal(self):
+        cipher = daybook.cipher.Cipher(self.password)
+        self.journal = cipher.decrypt(self.journal).decode("utf-8")
+
     def time(self):
         timestamp = datetime.datetime.now()
         return timestamp.strftime("%Y %B %d %H:%M")

@@ -121,3 +121,12 @@ def step_impl(context):
 @then("content of journal is not identical to initial content")
 def step_impl(context):
     assert context.application.journal != context.journal.encode("utf-8")
+
+@when("decrypt journal")
+def step_impl(context):
+    context.application.decrypt_journal()
+
+@then("content of journal is identical to initial content")
+def step_impl(context):
+    assert context.application.journal == context.journal, \
+        context.application.journal + " != " + context.journal
