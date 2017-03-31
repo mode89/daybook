@@ -11,6 +11,7 @@ Feature: Encryption
 
     Scenario: execute encryption command
         Given application
+        And mock journal loading/saving
         And mock journal encryption
         And enter random password
         When execute command "encrypt"
@@ -18,6 +19,7 @@ Feature: Encryption
 
     Scenario: enter password
         Given application
+        And mock journal loading/saving
         And enter random password
         When execute command "encrypt"
         Then password is identical to entered password

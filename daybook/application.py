@@ -37,7 +37,9 @@ class Application:
 
     def command_encrypt(self):
         self.password = self.enter_password()
+        self.load_journal()
         self.encrypt_journal()
+        self.save_journal()
 
     def command_edit(self):
         self.load_journal()

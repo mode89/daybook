@@ -153,3 +153,8 @@ def step_impl(context):
 @then("password is identical to entered password")
 def step_impl(context):
     assert context.application.password == context.password
+
+@given("mock journal loading/saving")
+def step_impl(context):
+    context.application.load_journal = mock.Mock()
+    context.application.save_journal = mock.Mock()
