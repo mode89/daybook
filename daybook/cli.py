@@ -4,7 +4,7 @@ import sys
 
 def main():
     app = application.Application()
-    app.config_path = os.path.expanduser("~/.journal")
+    app.config_path = os.path.expanduser("~/.daybook")
     app.args = sys.argv[1:]
     app.run()
 
