@@ -18,14 +18,14 @@ class Application:
     def run(self):
         self.parse_args()
         self.config = self.load_config()
-        self.execute_command()
+        self.execute_command(self.command)
 
-    def execute_command(self):
-        attr = "command_" + self.command
+    def execute_command(self, command):
+        attr = "command_" + command
         if hasattr(self, attr):
             getattr(self, attr)()
         else:
-            raise RuntimeError("Unknown command: {0}".format(self.command))
+            raise RuntimeError("Unknown command: {0}".format(command))
 
     def command_entry(self):
         self.entry = self.compose_entry()
