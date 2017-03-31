@@ -1,4 +1,5 @@
 import argparse
+import daybook.cipher
 import datetime
 import json
 import os
@@ -76,6 +77,10 @@ class Application:
     def save_journal(self):
         with open(self.config["journal"], "w") as f:
             f.write(self.journal)
+
+    def encrypt_journal(self):
+        cipher = daybook.cipher.Cipher(self.password)
+        self.journal = cipher.encrypt(self.journal.encode("utf-8"))
 
     def time(self):
         timestamp = datetime.datetime.now()

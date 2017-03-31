@@ -1,6 +1,12 @@
 from daybook.application import Application
+import random
+import string
 import tempfile
 from unittest import mock
+
+def random_string(length):
+    lst = [random.choice(string.ascii_letters) for n in range(length)]
+    return ''.join(lst)
 
 @given("not implemented")
 def step_impl(context):
@@ -95,3 +101,23 @@ def step_impl(context, class_name, message):
         assert str(e) == message
     finally:
         assert context.exception is not None
+
+@given("journal with random content")
+def step_impl(context):
+    length = random.randint(10, 100)
+    context.journal = random_string(length)
+    context.application.journal = context.journal
+
+@given("random password")
+def step_impl(context):
+    length = random.randint(5, 15)
+    context.password = random_string(length)
+    context.application.password = context.password
+
+@when("encrypt journal")
+def step_impl(context):
+    context.application.encrypt_journal()
+
+@then("content of journal is not identical to initial content")
+def step_impl(context):
+    assert context.application.journal != context.journal.encode("utf-8")
