@@ -8,3 +8,9 @@ Feature: Encryption
         Then content of journal is not identical to initial content
         When decrypt journal
         Then content of journal is identical to initial content
+
+    Scenario: execute encryption command
+        Given application
+        And mock journal encryption
+        When execute command "encrypt"
+        Then encrypt journal

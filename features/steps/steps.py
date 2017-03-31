@@ -130,3 +130,15 @@ def step_impl(context):
 def step_impl(context):
     assert context.application.journal == context.journal, \
         context.application.journal + " != " + context.journal
+
+@given("mock journal encryption")
+def step_impl(context):
+    context.application.encrypt_journal = mock.Mock()
+
+@when("execute command \"{command}\"")
+def step_impl(context, command):
+    context.application.execute_command(command)
+
+@then("encrypt journal")
+def step_impl(context):
+    assert context.application.encrypt_journal.call_count == 1

@@ -34,6 +34,9 @@ class Application:
             self.append_entry()
             self.save_journal()
 
+    def command_encrypt(self):
+        self.encrypt_journal()
+
     def command_edit(self):
         self.load_journal()
         self.journal = self.edit_text(self.journal)
