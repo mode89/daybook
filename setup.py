@@ -1,16 +1,16 @@
 from setuptools import setup
 
 setup(
-    name="journal",
+    name="daybook",
     description="Command-line journal application",
-    url="https://github.com/mode89/journal",
+    url="https://github.com/mode89/daybook",
     author="Mode",
     author_email="mode89@mail.ru",
     license="MIT",
-    packages=["journal"],
+    packages=["daybook"],
     entry_points={
         "console_scripts": [
-            "journal = journal.cli:main"
+            "daybook = daybook.cli:main"
         ]
     }
 )

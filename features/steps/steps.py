@@ -1,4 +1,4 @@
-from journal.application import Application
+from daybook.application import Application
 import tempfile
 from unittest import mock
 
