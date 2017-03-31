@@ -20,7 +20,11 @@ class Application:
         self.execute_command()
 
     def execute_command(self):
-        getattr(self, "command_" + self.command)()
+        attr = "command_" + self.command
+        if hasattr(self, attr):
+            getattr(self, attr)()
+        else:
+            raise RuntimeError("Unknown command: {0}".format(self.command))
 
     def command_entry(self):
         self.entry = self.compose_entry()

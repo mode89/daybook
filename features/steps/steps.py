@@ -84,3 +84,14 @@ def step_impl(context, text):
 @given("edited text is")
 def step_impl(context):
     context.application.edit_text = mock.Mock(return_value=context.text)
+
+@then("run and catch {class_name}(\"{message}\")")
+def step_impl(context, class_name, message):
+    try:
+        context.application.run()
+    except Exception as e:
+        context.exception = e
+        assert e.__class__.__name__ == class_name
+        assert str(e) == message
+    finally:
+        assert context.exception is not None

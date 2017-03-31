@@ -99,3 +99,8 @@ Feature: Core functionality
             """
             Edited text
             """
+
+    Scenario: raise exception on unknown command
+        Given application with temp journal and mocked config
+        And command line is "pumpurum"
+        Then run and catch RuntimeError("Unknown command: pumpurum")
