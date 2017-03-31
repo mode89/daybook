@@ -4,7 +4,7 @@ setup(
     name="daybook",
     description="Command-line journal application",
     url="https://github.com/mode89/daybook",
-    author="Mode",
+    author="Andrey Krainyak",
     author_email="mode89@mail.ru",
     license="MIT",
     packages=["daybook"],
