@@ -142,3 +142,14 @@ def step_impl(context, command):
 @then("encrypt journal")
 def step_impl(context):
     assert context.application.encrypt_journal.call_count == 1
+
+@given("enter random password")
+def step_impl(context):
+    length = random.randint(5, 15)
+    context.password = random_string(length)
+    context.application.enter_password = \
+        mock.Mock(return_value=context.password)
+
+@then("password is identical to entered password")
+def step_impl(context):
+    assert context.application.password == context.password

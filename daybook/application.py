@@ -1,6 +1,7 @@
 import argparse
 import daybook.cipher
 import datetime
+import getpass
 import json
 import os
 import subprocess
@@ -35,6 +36,7 @@ class Application:
             self.save_journal()
 
     def command_encrypt(self):
+        self.password = self.enter_password()
         self.encrypt_journal()
 
     def command_edit(self):
@@ -80,6 +82,12 @@ class Application:
     def save_journal(self):
         with open(self.config["journal"], "w") as f:
             f.write(self.journal)
+
+    def enter_password(self):
+        password = getpass.getpass(prompt="Password: ")
+        repeat_password = getpass.getpass(prompt="Repeat password: ")
+        assert password == repeat_password
+        return password
 
     def encrypt_journal(self):
         cipher = daybook.cipher.Cipher(self.password)

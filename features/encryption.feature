@@ -12,5 +12,12 @@ Feature: Encryption
     Scenario: execute encryption command
         Given application
         And mock journal encryption
+        And enter random password
         When execute command "encrypt"
         Then encrypt journal
+
+    Scenario: enter password
+        Given application
+        And enter random password
+        When execute command "encrypt"
+        Then password is identical to entered password
