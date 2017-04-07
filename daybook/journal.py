@@ -8,5 +8,9 @@ class Journal:
         with open(self.path, "r") as f:
             self.text = f.read()
 
+    def save(self):
+        with open(self.path, "w") as f:
+            f.write(self.text)
+
     def append(self, entry):
         self.text += str(entry) + "\n"

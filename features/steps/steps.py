@@ -162,4 +162,5 @@ def step_impl(context):
 def step_impl(context):
     context.patch_journal_load = mock.patch("daybook.journal.Journal.load")
     context.patch_journal_load.start()
-    context.application.save_journal = mock.Mock()
+    context.patch_journal_save = mock.patch("daybook.journal.Journal.save")
+    context.patch_journal_save.start()

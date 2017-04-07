@@ -35,18 +35,18 @@ class Application:
         if not self.entry.is_empty():
             self.journal.load()
             self.journal.append(self.entry)
-            self.save_journal()
+            self.journal.save()
 
     def command_encrypt(self):
         self.password = self.enter_password()
         self.journal.load()
         self.encrypt_journal()
-        self.save_journal()
+        self.journal.save()
 
     def command_edit(self):
         self.journal.load()
         self.journal.text = self.edit_text(self.journal.text)
-        self.save_journal()
+        self.journal.save()
 
     def parse_args(self):
         parser = argparse.ArgumentParser()
@@ -73,10 +73,6 @@ class Application:
     def compose_entry(self):
         text = self.edit_text("")
         return daybook.entry.Entry(text)
-
-    def save_journal(self):
-        with open(self.config["journal"], "w") as f:
-            f.write(self.journal.text)
 
     def enter_password(self):
         password = getpass.getpass(prompt="Password: ")
