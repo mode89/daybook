@@ -1,5 +1,6 @@
 from daybook.application import Application
 from daybook.entry import Entry
+from daybook.journal import Journal
 import random
 import string
 import tempfile
@@ -107,33 +108,33 @@ def step_impl(context, class_name, message):
 
 @given("journal with random content")
 def step_impl(context):
+    context.journal = Journal()
     length = random.randint(10, 100)
-    context.journal = random_string(length)
-    context.application.journal.text = context.journal
+    context.initial_content = random_string(length)
+    context.journal.text = context.initial_content
 
-@given("random password")
+@given("random journal password")
 def step_impl(context):
     length = random.randint(5, 15)
     context.password = random_string(length)
-    context.application.journal.password = context.password
+    context.journal.password = context.password
 
 @when("encrypt journal")
 def step_impl(context):
-    context.application.journal.encrypt()
+    context.journal.encrypt()
 
 @then("content of journal is not identical to initial content")
 def step_impl(context):
-    assert context.application.journal.text != \
-        context.journal.encode("utf-8")
+    assert context.journal.text != context.initial_content.encode("utf-8")
 
 @when("decrypt journal")
 def step_impl(context):
-    context.application.journal.decrypt()
+    context.journal.decrypt()
 
 @then("content of journal is identical to initial content")
 def step_impl(context):
-    assert context.application.journal.text == context.journal, \
-        context.application.journal.text + " != " + context.journal
+    assert context.journal.text == context.initial_content, \
+        context.journal.text + " != " + context.initial_content
 
 @given("mock journal encryption")
 def step_impl(context):
