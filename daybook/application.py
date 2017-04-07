@@ -38,9 +38,9 @@ class Application:
             self.journal.save()
 
     def command_encrypt(self):
-        self.password = self.enter_password()
+        self.journal.password = self.enter_password()
         self.journal.load()
-        self.encrypt_journal()
+        self.journal.encrypt()
         self.journal.save()
 
     def command_edit(self):
@@ -79,13 +79,3 @@ class Application:
         repeat_password = getpass.getpass(prompt="Repeat password: ")
         assert password == repeat_password
         return password
-
-    def encrypt_journal(self):
-        cipher = daybook.cipher.Cipher(self.password)
-        self.journal.text = \
-            cipher.encrypt(self.journal.text.encode("utf-8"))
-
-    def decrypt_journal(self):
-        cipher = daybook.cipher.Cipher(self.password)
-        self.journal.text = \
-            cipher.decrypt(self.journal.text).decode("utf-8")

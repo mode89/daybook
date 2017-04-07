@@ -115,11 +115,11 @@ def step_impl(context):
 def step_impl(context):
     length = random.randint(5, 15)
     context.password = random_string(length)
-    context.application.password = context.password
+    context.application.journal.password = context.password
 
 @when("encrypt journal")
 def step_impl(context):
-    context.application.encrypt_journal()
+    context.application.journal.encrypt()
 
 @then("content of journal is not identical to initial content")
 def step_impl(context):
@@ -128,7 +128,7 @@ def step_impl(context):
 
 @when("decrypt journal")
 def step_impl(context):
-    context.application.decrypt_journal()
+    context.application.journal.decrypt()
 
 @then("content of journal is identical to initial content")
 def step_impl(context):
@@ -137,7 +137,9 @@ def step_impl(context):
 
 @given("mock journal encryption")
 def step_impl(context):
-    context.application.encrypt_journal = mock.Mock()
+    context.patch_journal_encrypt = \
+        mock.patch("daybook.journal.Journal.encrypt")
+    context.patch_journal_encrypt.start()
 
 @when("execute command \"{command}\"")
 def step_impl(context, command):
@@ -145,7 +147,7 @@ def step_impl(context, command):
 
 @then("encrypt journal")
 def step_impl(context):
-    assert context.application.encrypt_journal.call_count == 1
+    assert context.application.journal.encrypt.call_count == 1
 
 @given("enter random password")
 def step_impl(context):
@@ -156,7 +158,7 @@ def step_impl(context):
 
 @then("password is identical to entered password")
 def step_impl(context):
-    assert context.application.password == context.password
+    assert context.application.journal.password == context.password
 
 @given("mock journal loading/saving")
 def step_impl(context):
