@@ -30,7 +30,7 @@ class Application:
 
     def command_entry(self):
         self.entry = self.compose_entry()
-        if not self.entry_is_empty():
+        if not self.entry.is_empty():
             self.load_journal()
             self.append_entry()
             self.save_journal()
@@ -71,9 +71,6 @@ class Application:
     def compose_entry(self):
         text = self.edit_text("")
         return daybook.entry.Entry(text)
-
-    def entry_is_empty(self):
-        return self.entry.text == ""
 
     def load_journal(self):
         with open(self.config["journal"], "r") as f:
