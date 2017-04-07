@@ -1,5 +1,6 @@
 import argparse
 import daybook.cipher
+import daybook.entry
 import datetime
 import getpass
 import json
@@ -12,7 +13,6 @@ class Application:
     def __init__(self):
         self.config_path = str()
         self.config = dict()
-        self.entry = str()
         self.journal = str()
         self.args = list()
 
@@ -69,17 +69,18 @@ class Application:
             os.remove(path)
 
     def compose_entry(self):
-        return self.edit_text("")
+        text = self.edit_text("")
+        return daybook.entry.Entry(text)
 
     def entry_is_empty(self):
-        return self.entry == ""
+        return self.entry.text == ""
 
     def load_journal(self):
         with open(self.config["journal"], "r") as f:
             self.journal = f.read()
 
     def append_entry(self):
-        self.journal += self.time() + " " + self.entry + "\n"
+        self.journal += self.time() + " " + self.entry.text + "\n"
 
     def save_journal(self):
         with open(self.config["journal"], "w") as f:

@@ -1,4 +1,5 @@
 from daybook.application import Application
+from daybook.entry import Entry
 import random
 import string
 import tempfile
@@ -31,12 +32,12 @@ def step_impl(context):
 
 @given("mock composing of entry")
 def step_impl(context):
-    context.application.compose_entry = mock.Mock(return_value="")
+    context.application.compose_entry = mock.Mock(return_value=Entry(""))
 
 @given("composed entry is")
 def step_impl(context):
     context.application.compose_entry = \
-        mock.Mock(return_value=context.text)
+        mock.Mock(return_value=Entry(context.text))
 
 @given("time is \"{time}\"")
 def step_impl(context, time):
