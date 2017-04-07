@@ -20,6 +20,7 @@ class Application:
     def run(self):
         self.parse_args()
         self.config = self.load_config()
+        self.journal.path = self.config["journal"]
         self.execute_command(self.command)
 
     def execute_command(self, command):
@@ -32,18 +33,18 @@ class Application:
     def command_entry(self):
         self.entry = self.compose_entry()
         if not self.entry.is_empty():
-            self.load_journal()
+            self.journal.load()
             self.journal.append(self.entry)
             self.save_journal()
 
     def command_encrypt(self):
         self.password = self.enter_password()
-        self.load_journal()
+        self.journal.load()
         self.encrypt_journal()
         self.save_journal()
 
     def command_edit(self):
-        self.load_journal()
+        self.journal.load()
         self.journal.text = self.edit_text(self.journal.text)
         self.save_journal()
 
@@ -72,10 +73,6 @@ class Application:
     def compose_entry(self):
         text = self.edit_text("")
         return daybook.entry.Entry(text)
-
-    def load_journal(self):
-        with open(self.config["journal"], "r") as f:
-            self.journal.text = f.read()
 
     def save_journal(self):
         with open(self.config["journal"], "w") as f:
