@@ -77,7 +77,7 @@ class Application:
             self.journal = f.read()
 
     def append_entry(self):
-        self.journal += self.time() + " " + self.entry.text + "\n"
+        self.journal += str(self.entry) + "\n"
 
     def save_journal(self):
         with open(self.config["journal"], "w") as f:
@@ -96,7 +96,3 @@ class Application:
     def decrypt_journal(self):
         cipher = daybook.cipher.Cipher(self.password)
         self.journal = cipher.decrypt(self.journal).decode("utf-8")
-
-    def time(self):
-        timestamp = datetime.datetime.now()
-        return timestamp.strftime("%Y %B %d %H:%M")

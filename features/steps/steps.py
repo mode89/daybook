@@ -41,7 +41,9 @@ def step_impl(context):
 
 @given("time is \"{time}\"")
 def step_impl(context, time):
-    context.application.time = mock.Mock(return_value=time)
+    context.patch_time = mock.patch("daybook.entry.Entry.time",
+        mock.Mock(return_value=time))
+    context.patch_time.start()
 
 @given("load config from file \"{path}\"")
 def step_impl(context, path):
