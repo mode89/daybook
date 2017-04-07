@@ -33,7 +33,7 @@ class Application:
         self.entry = self.compose_entry()
         if not self.entry.is_empty():
             self.load_journal()
-            self.append_entry()
+            self.journal.append(self.entry)
             self.save_journal()
 
     def command_encrypt(self):
@@ -76,9 +76,6 @@ class Application:
     def load_journal(self):
         with open(self.config["journal"], "r") as f:
             self.journal.text = f.read()
-
-    def append_entry(self):
-        self.journal.text += str(self.entry) + "\n"
 
     def save_journal(self):
         with open(self.config["journal"], "w") as f:
