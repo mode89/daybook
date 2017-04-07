@@ -64,8 +64,8 @@ def step_impl(context):
 
 @then("content of journal is")
 def step_impl(context):
-    assert context.application.journal == context.text, \
-        "{0} != {1}".format(context.application.journal, context.text)
+    assert context.application.journal.text == context.text, \
+        "{0} != {1}".format(context.application.journal.text, context.text)
 
 @then("content of journal file is")
 def step_impl(context):
@@ -109,7 +109,7 @@ def step_impl(context, class_name, message):
 def step_impl(context):
     length = random.randint(10, 100)
     context.journal = random_string(length)
-    context.application.journal = context.journal
+    context.application.journal.text = context.journal
 
 @given("random password")
 def step_impl(context):
@@ -123,7 +123,8 @@ def step_impl(context):
 
 @then("content of journal is not identical to initial content")
 def step_impl(context):
-    assert context.application.journal != context.journal.encode("utf-8")
+    assert context.application.journal.text != \
+        context.journal.encode("utf-8")
 
 @when("decrypt journal")
 def step_impl(context):
@@ -131,8 +132,8 @@ def step_impl(context):
 
 @then("content of journal is identical to initial content")
 def step_impl(context):
-    assert context.application.journal == context.journal, \
-        context.application.journal + " != " + context.journal
+    assert context.application.journal.text == context.journal, \
+        context.application.journal.text + " != " + context.journal
 
 @given("mock journal encryption")
 def step_impl(context):

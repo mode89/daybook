@@ -1,6 +1,7 @@
 import argparse
 import daybook.cipher
 import daybook.entry
+import daybook.journal
 import datetime
 import getpass
 import json
@@ -13,7 +14,7 @@ class Application:
     def __init__(self):
         self.config_path = str()
         self.config = dict()
-        self.journal = str()
+        self.journal = daybook.journal.Journal()
         self.args = list()
 
     def run(self):
@@ -43,7 +44,7 @@ class Application:
 
     def command_edit(self):
         self.load_journal()
-        self.journal = self.edit_text(self.journal)
+        self.journal.text = self.edit_text(self.journal.text)
         self.save_journal()
 
     def parse_args(self):
@@ -74,14 +75,14 @@ class Application:
 
     def load_journal(self):
         with open(self.config["journal"], "r") as f:
-            self.journal = f.read()
+            self.journal.text = f.read()
 
     def append_entry(self):
-        self.journal += str(self.entry) + "\n"
+        self.journal.text += str(self.entry) + "\n"
 
     def save_journal(self):
         with open(self.config["journal"], "w") as f:
-            f.write(self.journal)
+            f.write(self.journal.text)
 
     def enter_password(self):
         password = getpass.getpass(prompt="Password: ")
@@ -91,8 +92,10 @@ class Application:
 
     def encrypt_journal(self):
         cipher = daybook.cipher.Cipher(self.password)
-        self.journal = cipher.encrypt(self.journal.encode("utf-8"))
+        self.journal.text = \
+            cipher.encrypt(self.journal.text.encode("utf-8"))
 
     def decrypt_journal(self):
         cipher = daybook.cipher.Cipher(self.password)
-        self.journal = cipher.decrypt(self.journal).decode("utf-8")
+        self.journal.text = \
+            cipher.decrypt(self.journal.text).decode("utf-8")
