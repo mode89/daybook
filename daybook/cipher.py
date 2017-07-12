@@ -26,6 +26,9 @@ class Cipher:
         Crypto.Random.atfork()
         aes = Crypto.Cipher.AES
         init_vector = Crypto.Random.new().read(self.block_size)
+        # force first byte to be undecodable by decode("utf-8")
+        # which can be used to differentiate encrypted and plain text
+        init_vector = b'\xFF' + init_vector[1:]
         cipher = aes.new(self.key, aes.MODE_CBC, init_vector)
         return init_vector + cipher.encrypt(data)
 
