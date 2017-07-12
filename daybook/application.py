@@ -38,7 +38,7 @@ class Application:
             self.journal.save()
 
     def command_encrypt(self):
-        self.journal.password = self.enter_password()
+        self.journal.password = self.enter_and_confirm_password()
         self.journal.load()
         self.journal.encrypt()
         self.journal.save()
@@ -75,7 +75,13 @@ class Application:
         return daybook.entry.Entry(text)
 
     def enter_password(self):
-        password = getpass.getpass(prompt="Password: ")
-        repeat_password = getpass.getpass(prompt="Repeat password: ")
-        assert password == repeat_password
+        return getpass.getpass(prompt="Password: ")
+
+    def confirm_password(self, password):
+        confirmed_password = getpass.getpass(prompt="Comfirm password: ")
+        assert password == confirmed_password
+
+    def enter_and_confirm_password(self):
+        password = self.enter_password()
+        self.confirm_password(password)
         return password

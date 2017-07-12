@@ -154,7 +154,7 @@ def step_impl(context):
 def step_impl(context):
     length = random.randint(5, 15)
     context.password = random_string(length)
-    context.application.enter_password = \
+    context.application.enter_and_confirm_password = \
         mock.Mock(return_value=context.password)
 
 @then("password is identical to entered password")
