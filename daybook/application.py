@@ -43,6 +43,12 @@ class Application:
         self.journal.encrypt()
         self.journal.save()
 
+    def command_decrypt(self):
+        self.journal.password = self.enter_password()
+        self.journal.load()
+        self.journal.decrypt()
+        self.journal.save()
+
     def command_edit(self):
         self.journal.load()
         self.journal.text = self.edit_text(self.journal.text)
